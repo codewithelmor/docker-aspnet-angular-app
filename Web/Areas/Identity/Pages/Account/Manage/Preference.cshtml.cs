@@ -10,8 +10,10 @@ using Domain;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Models.Entity;
+using Services.Contracts;
 
 namespace Web.Areas.Identity.Pages.Account.Manage
 {
@@ -19,13 +21,16 @@ namespace Web.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ApplicationDbContext _context;
+        private readonly ILocaleService _localeService;
 
         public PreferenceModel(
             UserManager<ApplicationUser> userManager,
-            ApplicationDbContext context)
+            ApplicationDbContext context,
+            ILocaleService localeService)
         {
             _userManager = userManager;
             _context = context;
+            _localeService = localeService;
         }
 
         /// <summary>
@@ -52,6 +57,13 @@ namespace Web.Areas.Identity.Pages.Account.Manage
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
+        [BindProperty]
+        public SelectList Locales { get; set; }
+
+        /// <summary>
+        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
+        ///     directly from your code. This API may change or be removed in future releases.
+        /// </summary>
         public class InputModel
         {
             /// <summary>
@@ -59,8 +71,8 @@ namespace Web.Areas.Identity.Pages.Account.Manage
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
             [Required]
-            [Display(Name = "Language")]
-            public string Language { get; set; }
+            [Display(Name = "Locale")]
+            public string Locale { get; set; }
         }
 
         private async Task LoadAsync(ApplicationUser user)
@@ -72,8 +84,10 @@ namespace Web.Areas.Identity.Pages.Account.Manage
 
             Input = new InputModel
             {
-                Language = preference?.Language
+                Locale = preference?.Language
             };
+
+            Locales = _localeService.GetLocales(preference?.Language);
         }
 
         public async Task<IActionResult> OnGetAsync()
@@ -103,9 +117,9 @@ namespace Web.Areas.Identity.Pages.Account.Manage
             }
 
             var preference = await _context.Preferences.FirstOrDefaultAsync(x => x.CreatedByUserId == user.Id);
-            if (preference != null && Input.Language != preference.Language)
+            if (preference != null && Input.Locale != preference.Language)
             {
-                preference.Language = Input.Language;
+                preference.Language = Input.Locale;
                 preference.UpdatedByUserId = user.Id;
                 preference.UpdatedDate = DateTimeOffset.UtcNow;
 
@@ -120,7 +134,7 @@ namespace Web.Areas.Identity.Pages.Account.Manage
             {
                 await _context.Preferences.AddAsync(new Preference()
                 {
-                    Language = Input.Language,
+                    Language = Input.Locale,
                     IsActive = true,
                     CreatedByUserId = user.Id,
                     CreatedDate = DateTimeOffset.UtcNow

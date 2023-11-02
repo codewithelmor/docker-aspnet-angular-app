@@ -12,13 +12,11 @@
         <form id="preference-form" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-floating">
-                <select class="form-select" asp-for="Input.Language" aria-label="Language Preference">
-                    <option selected value="">Select Language Preference</option>
-                    <option value="en-US">English (United States)</option>
-                    <option value="fr-FR">French (France)</option>
+                <select class="form-select" aria-label="Locale" asp-for="Input.Locale" asp-items="Model.Locales">
+                    <option selected value="">Select Locale</option>
                 </select>
-                <label asp-for="Input.Language">Language Preference</label>
-                <span asp-validation-for="Input.Language" class="text-danger"></span>
+                <label asp-for="Input.Locale">Locale</label>
+                <span asp-validation-for="Input.Locale" class="text-danger"></span>
             </div>
             <button id="update-profile-button" type="submit" class="w-100 btn btn-lg btn-primary">Save</button>
         </form>
