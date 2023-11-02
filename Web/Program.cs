@@ -1,9 +1,9 @@
+using Domain;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
-using Web.Data;
-using Web.Models;
+using Models.Entity;
 
 namespace Web
 {

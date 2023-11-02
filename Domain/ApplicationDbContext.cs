@@ -2,9 +2,9 @@
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using Web.Models;
+using Models.Entity;
 
-namespace Web.Data
+namespace Domain
 {
     public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>
     {
