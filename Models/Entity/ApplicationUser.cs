@@ -2,7 +2,7 @@
 
 namespace Models.Entity
 {
-    public class ApplicationUser : IdentityUser
+    public partial class ApplicationUser : IdentityUser
     {
 
     }

@@ -1,4 +1,5 @@
-﻿using Duende.IdentityServer.EntityFramework.Options;
+﻿using Domain.Configurations;
+using Duende.IdentityServer.EntityFramework.Options;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -13,5 +14,24 @@ namespace Domain
         {
 
         }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            #region Entity Configurations
+
+            builder.ApplyConfiguration(new PreferenceConfiguration());
+
+            #endregion
+
+        }
+
+        #region Database Sets
+
+        public virtual DbSet<Preference> Preferences { get; set; }
+
+        #endregion
+
     }
 }
