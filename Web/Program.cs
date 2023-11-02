@@ -1,9 +1,11 @@
 using Domain;
+using IdentityModel;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
 using Models.Entity;
+using Services;
 using Web.Extensions;
 
 namespace Web
@@ -27,7 +29,20 @@ namespace Web
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             builder.Services.AddIdentityServer()
-                .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
+                .AddApiAuthorization<ApplicationUser, ApplicationDbContext>(options =>
+                {
+                    foreach (var client in options.Clients)
+                        client.AccessTokenLifetime = 31536000; // Expiration in Seconds 365 days
+
+                    // Implement this configuration to include custom claims in generated jwt token
+                    // The options.ApiResources collection is automatically populated
+                    // by services.AddAuthentication().AddIdentityServerJwt();
+                    var apiResource = options.ApiResources[$"{System.Reflection.Assembly.GetEntryAssembly()?.GetName().Name}API"];
+                    // Example: add another custom claim type
+                    apiResource.UserClaims.Add(JwtClaimTypes.Locale);
+                });
+
+            builder.Services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, ApplicationUserClaimsPrincipalFactory>();
 
             builder.Services.AddAuthentication()
                 .AddIdentityServerJwt();
