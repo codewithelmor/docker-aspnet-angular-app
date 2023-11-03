@@ -26,6 +26,7 @@ namespace Web
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
             builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             builder.Services.AddIdentityServer()
@@ -40,6 +41,7 @@ namespace Web
                     var apiResource = options.ApiResources[$"{System.Reflection.Assembly.GetEntryAssembly()?.GetName().Name}API"];
                     // Example: add another custom claim type
                     apiResource.UserClaims.Add(JwtClaimTypes.Locale);
+                    apiResource.UserClaims.Add(JwtClaimTypes.Role);
                 });
 
             builder.Services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, ApplicationUserClaimsPrincipalFactory>();
