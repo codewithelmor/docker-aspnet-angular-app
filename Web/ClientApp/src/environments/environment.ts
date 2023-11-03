@@ -3,7 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  tokenName: 'oidc.user:https://localhost:44449:Web',
+  origins: ['localhost:44449'],
 };
 
 /*

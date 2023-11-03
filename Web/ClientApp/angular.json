@@ -27,6 +27,7 @@
               "oidc-client"
             ],
             "assets": [
+              "src/assets/favicon.ico",
               "src/assets"
             ],
             "styles": [

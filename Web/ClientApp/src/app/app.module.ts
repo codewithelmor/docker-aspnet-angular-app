@@ -8,7 +8,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
-import { HomeComponent } from './home/home.component';
+import HomeComponent from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { ApiAuthorizationModule } from 'src/api-authorization/api-authorization.module';
@@ -16,9 +16,16 @@ import { AuthorizeGuard } from 'src/api-authorization/authorize.guard';
 import { AuthorizeInterceptor } from 'src/api-authorization/authorize.interceptor';
 
 import { TranslationService } from '../app/shared/services/translation-service';
+import { JwtModule } from '@auth0/angular-jwt';
+import { environment } from '../environments/environment';
+import { AccountService } from './shared/services/account-service';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/');
+}
+
+export function tokenGetter() {
+  return sessionStorage.getItem(environment.tokenName);
 }
 
 @NgModule({
@@ -45,11 +52,23 @@ export function HttpLoaderFactory(http: HttpClient) {
         useFactory: HttpLoaderFactory,
         deps: [HttpClient]
       }
-    })    
+    }),
+    JwtModule.forRoot({
+      config: {
+        // tokenGetter: (() => {
+        //   return localStorage.getItem(environment.tokenName);
+        // }),
+        tokenGetter: tokenGetter,
+        allowedDomains: environment.origins
+        // whitelistedDomains: ['example.com'],
+        // blacklistedRoutes: ['example.com/examplebadroute/']
+      }
+    }),    
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },    
     TranslationService,
+    AccountService,
   ],
   bootstrap: [AppComponent]
 })
