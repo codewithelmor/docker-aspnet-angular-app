@@ -5,6 +5,7 @@ IF NOT EXISTS (SELECT 1 FROM [dbo].[__EFMigrationsHistory] WHERE [MigrationId] I
         INSERT [dbo].[__EFMigrationsHistory] ([MigrationId], [ProductVersion]) VALUES (N'00000000000000_CreateIdentitySchema', N'6.0.23')
         INSERT [dbo].[__EFMigrationsHistory] ([MigrationId], [ProductVersion]) VALUES (N'20231102073435_CreatePreferenceTable', N'6.0.23')
         INSERT [dbo].[__EFMigrationsHistory] ([MigrationId], [ProductVersion]) VALUES (N'20231103084806_CreateSalutationTable', N'6.0.23')
+        INSERT [dbo].[__EFMigrationsHistory] ([MigrationId], [ProductVersion]) VALUES (N'20231103092020_CreateRelationshipTable', N'6.0.23')
     END
 IF NOT EXISTS (SELECT 1 FROM [dbo].[Keys] WHERE [Id] = '32C4570A793E77FE16B58F6B5059089C')
     BEGIN
@@ -36,4 +37,19 @@ IF NOT EXISTS (SELECT 1 FROM [dbo].[Salutation] WHERE [Title] IN ('Mr', 'Ms', 'M
         INSERT [dbo].[Salutation] ([Id], [Title], [IsActive], [IsDeleted], [CreatedByUserId], [CreatedDate], [UpdatedByUserId], [UpdatedDate], [DeletedByUserId], [DeletedDate]) VALUES (2, N'Ms', 1, 0, N'9dc02186-3c26-43d7-a37c-36d4f3f0d3d7', CAST(N'2023-11-03T08:50:37.7100000+00:00' AS DateTimeOffset), NULL, NULL, NULL, NULL)
         INSERT [dbo].[Salutation] ([Id], [Title], [IsActive], [IsDeleted], [CreatedByUserId], [CreatedDate], [UpdatedByUserId], [UpdatedDate], [DeletedByUserId], [DeletedDate]) VALUES (3, N'Mrs', 1, 0, N'9dc02186-3c26-43d7-a37c-36d4f3f0d3d7', CAST(N'2023-11-03T08:50:39.7200000+00:00' AS DateTimeOffset), NULL, NULL, NULL, NULL)
         SET IDENTITY_INSERT [dbo].[Salutation] OFF
+    END
+IF NOT EXISTS (SELECT 1 FROM [dbo].[Relationship] WHERE [Name] IN ('Spouse'))
+    BEGIN
+        SET IDENTITY_INSERT [dbo].[Relationship] ON
+        INSERT [dbo].[Relationship] ([Id], [Name], [IsActive], [IsDeleted], [CreatedByUserId], [CreatedDate], [UpdatedByUserId], [UpdatedDate], [DeletedByUserId], [DeletedDate]) VALUES (1, N'Spouse', 1, 0, N'9dc02186-3c26-43d7-a37c-36d4f3f0d3d7', CAST(N'2023-11-03T09:21:38.8300000+00:00' AS DateTimeOffset), NULL, NULL, NULL, NULL)
+        INSERT [dbo].[Relationship] ([Id], [Name], [IsActive], [IsDeleted], [CreatedByUserId], [CreatedDate], [UpdatedByUserId], [UpdatedDate], [DeletedByUserId], [DeletedDate]) VALUES (2, N'Partner', 1, 0, N'9dc02186-3c26-43d7-a37c-36d4f3f0d3d7', CAST(N'2023-11-03T09:21:44.4166667+00:00' AS DateTimeOffset), NULL, NULL, NULL, NULL)
+        INSERT [dbo].[Relationship] ([Id], [Name], [IsActive], [IsDeleted], [CreatedByUserId], [CreatedDate], [UpdatedByUserId], [UpdatedDate], [DeletedByUserId], [DeletedDate]) VALUES (3, N'Husband', 1, 0, N'9dc02186-3c26-43d7-a37c-36d4f3f0d3d7', CAST(N'2023-11-03T09:21:51.0700000+00:00' AS DateTimeOffset), NULL, NULL, NULL, NULL)
+        INSERT [dbo].[Relationship] ([Id], [Name], [IsActive], [IsDeleted], [CreatedByUserId], [CreatedDate], [UpdatedByUserId], [UpdatedDate], [DeletedByUserId], [DeletedDate]) VALUES (4, N'Wife', 1, 0, N'9dc02186-3c26-43d7-a37c-36d4f3f0d3d7', CAST(N'2023-11-03T09:21:54.0066667+00:00' AS DateTimeOffset), NULL, NULL, NULL, NULL)
+        INSERT [dbo].[Relationship] ([Id], [Name], [IsActive], [IsDeleted], [CreatedByUserId], [CreatedDate], [UpdatedByUserId], [UpdatedDate], [DeletedByUserId], [DeletedDate]) VALUES (5, N'Son', 1, 0, N'9dc02186-3c26-43d7-a37c-36d4f3f0d3d7', CAST(N'2023-11-03T09:21:59.2000000+00:00' AS DateTimeOffset), NULL, NULL, NULL, NULL)
+        INSERT [dbo].[Relationship] ([Id], [Name], [IsActive], [IsDeleted], [CreatedByUserId], [CreatedDate], [UpdatedByUserId], [UpdatedDate], [DeletedByUserId], [DeletedDate]) VALUES (6, N'Daughter', 1, 0, N'9dc02186-3c26-43d7-a37c-36d4f3f0d3d7', CAST(N'2023-11-03T09:22:03.0566667+00:00' AS DateTimeOffset), NULL, NULL, NULL, NULL)
+        INSERT [dbo].[Relationship] ([Id], [Name], [IsActive], [IsDeleted], [CreatedByUserId], [CreatedDate], [UpdatedByUserId], [UpdatedDate], [DeletedByUserId], [DeletedDate]) VALUES (7, N'Father', 1, 0, N'9dc02186-3c26-43d7-a37c-36d4f3f0d3d7', CAST(N'2023-11-03T09:22:06.1566667+00:00' AS DateTimeOffset), NULL, NULL, NULL, NULL)
+        INSERT [dbo].[Relationship] ([Id], [Name], [IsActive], [IsDeleted], [CreatedByUserId], [CreatedDate], [UpdatedByUserId], [UpdatedDate], [DeletedByUserId], [DeletedDate]) VALUES (8, N'Mother', 1, 0, N'9dc02186-3c26-43d7-a37c-36d4f3f0d3d7', CAST(N'2023-11-03T09:22:09.7200000+00:00' AS DateTimeOffset), NULL, NULL, NULL, NULL)
+        INSERT [dbo].[Relationship] ([Id], [Name], [IsActive], [IsDeleted], [CreatedByUserId], [CreatedDate], [UpdatedByUserId], [UpdatedDate], [DeletedByUserId], [DeletedDate]) VALUES (9, N'Brother', 1, 0, N'9dc02186-3c26-43d7-a37c-36d4f3f0d3d7', CAST(N'2023-11-03T09:22:13.1066667+00:00' AS DateTimeOffset), NULL, NULL, NULL, NULL)
+        INSERT [dbo].[Relationship] ([Id], [Name], [IsActive], [IsDeleted], [CreatedByUserId], [CreatedDate], [UpdatedByUserId], [UpdatedDate], [DeletedByUserId], [DeletedDate]) VALUES (10, N'Sister', 1, 0, N'9dc02186-3c26-43d7-a37c-36d4f3f0d3d7', CAST(N'2023-11-03T09:22:16.4033333+00:00' AS DateTimeOffset), NULL, NULL, NULL, NULL)
+        SET IDENTITY_INSERT [dbo].[Relationship] OFF
     END
