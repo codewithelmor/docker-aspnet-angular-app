@@ -22,6 +22,10 @@ export class NavMenuComponent {
     this.isExpanded = !this.isExpanded;
   }
 
+  isAdmin() {
+    return this.accountService.isAdmin();
+  }
+
   isApplicant() {
     return this.accountService.isApplicant();
   }

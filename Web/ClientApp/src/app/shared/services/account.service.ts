@@ -44,6 +44,14 @@ export class AccountService {
     return false;
   }
 
+  isAdmin(): boolean {
+    const token = this.getDecodedToken();
+    if (token) {
+      return includes(token['role'], "Admin");
+    }
+    return false;
+  }
+
   isApplicant(): boolean {
     const token = this.getDecodedToken();
     if (token) {

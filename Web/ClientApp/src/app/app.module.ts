@@ -23,6 +23,8 @@ import { ApplicationComponent } from './application/application.component';
 import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
 import { ApplicantGuard } from './shared/auth-guards/applicant-guard';
 import { NotfoundComponent } from './notfound/notfound.component';
+import { AdminComponent } from './admin/admin.component';
+import { AdminGuard } from './shared/auth-guards/admin-guard';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/');
@@ -39,6 +41,7 @@ export function tokenGetter() {
     HomeComponent,
     CounterComponent,
     FetchDataComponent,
+    AdminComponent,
     ApplicationComponent,
     NotfoundComponent,
     UnauthorizedComponent
@@ -52,6 +55,7 @@ export function tokenGetter() {
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthorizeGuard] },
+      { path: 'admin', component: AdminComponent, canActivate: [AuthorizeGuard, AdminGuard] },
       { path: 'application', component: ApplicationComponent, canActivate: [AuthorizeGuard, ApplicantGuard] },
       { path: 'unauthorized', component: UnauthorizedComponent },
       { path: '**', component: NotfoundComponent },
@@ -78,6 +82,7 @@ export function tokenGetter() {
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },
     // Auth Guards
+    AdminGuard,
     ApplicantGuard,
     // Services
     TranslationService,
