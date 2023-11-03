@@ -12,7 +12,7 @@ export default class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-      this.accountService.setLocale();
+    this.accountService.setLocale();
   }
 
 }
