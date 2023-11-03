@@ -57,7 +57,6 @@ namespace Web.Areas.Identity.Pages.Account.Manage
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
-        [BindProperty]
         public SelectList Locales { get; set; }
 
         /// <summary>
@@ -84,10 +83,10 @@ namespace Web.Areas.Identity.Pages.Account.Manage
 
             Input = new InputModel
             {
-                Locale = preference?.Language
+                Locale = preference?.Locale
             };
 
-            Locales = _localeService.GetLocales(preference?.Language);
+            Locales = _localeService.GetLocales(preference?.Locale);
         }
 
         public async Task<IActionResult> OnGetAsync()
@@ -117,9 +116,9 @@ namespace Web.Areas.Identity.Pages.Account.Manage
             }
 
             var preference = await _context.Preferences.FirstOrDefaultAsync(x => x.CreatedByUserId == user.Id);
-            if (preference != null && Input.Locale != preference.Language)
+            if (preference != null && Input.Locale != preference.Locale)
             {
-                preference.Language = Input.Locale;
+                preference.Locale = Input.Locale;
                 preference.UpdatedByUserId = user.Id;
                 preference.UpdatedDate = DateTimeOffset.UtcNow;
 
@@ -127,6 +126,7 @@ namespace Web.Areas.Identity.Pages.Account.Manage
                 if ((await _context.SaveChangesAsync()) <= 0)
                 {
                     StatusMessage = "Unexpected error when trying to set preference.";
+                    await LoadAsync(user);
                     return Page();
                 }
             }
@@ -134,7 +134,7 @@ namespace Web.Areas.Identity.Pages.Account.Manage
             {
                 await _context.Preferences.AddAsync(new Preference()
                 {
-                    Language = Input.Locale,
+                    Locale = Input.Locale,
                     IsActive = true,
                     CreatedByUserId = user.Id,
                     CreatedDate = DateTimeOffset.UtcNow
@@ -142,11 +142,13 @@ namespace Web.Areas.Identity.Pages.Account.Manage
                 if ((await _context.SaveChangesAsync()) <= 0)
                 {
                     StatusMessage = "Unexpected error when trying to set preference.";
+                    await LoadAsync(user);
                     return Page();
                 }
             }
 
             StatusMessage = "Your preference has been updated";
+            await LoadAsync(user);
             return Page();
         }
     }

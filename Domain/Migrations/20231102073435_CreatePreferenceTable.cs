@@ -15,7 +15,7 @@ namespace Domain.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Language = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: false),
+                    Locale = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false, defaultValueSql: "((1))"),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatedByUserId = table.Column<string>(type: "nvarchar(450)", maxLength: 450, nullable: false),

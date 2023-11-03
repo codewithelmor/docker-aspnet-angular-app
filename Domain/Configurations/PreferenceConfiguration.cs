@@ -21,7 +21,7 @@ namespace Domain.Configurations
             builder.Property(e => e.IsActive)
                 .IsRequired()
                 .HasDefaultValueSql("((1))");
-            builder.Property(e => e.Language).HasMaxLength(5);
+            builder.Property(e => e.Locale).HasMaxLength(5);
             builder.Property(e => e.UpdatedByUserId).HasMaxLength(450);
 
             builder.HasOne(d => d.CreatedByUser).WithMany(p => p.PreferenceCreatedByUsers)

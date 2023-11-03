@@ -2,6 +2,6 @@
 {
     public partial class Preference : BaseEntity
     {
-        public string Language { get; set; } = string.Empty;
+        public string Locale { get; set; } = string.Empty;
     }
 }

@@ -25,7 +25,7 @@ namespace Services
             var principal = await base.CreateAsync(user);
 
             var preference = await _context.Preferences.FirstOrDefaultAsync(x => x.CreatedByUserId == user.Id);
-            string locale = preference == null ? "en-US" : preference.Language;
+            string locale = preference == null ? "en-US" : preference.Locale;
 
             ((ClaimsIdentity)principal.Identity).AddClaims(new[] {
                 new Claim(ClaimTypes.Name, user.UserName),
@@ -41,7 +41,7 @@ namespace Services
             var principal = await base.GenerateClaimsAsync(user);
 
             var preference = await _context.Preferences.FirstOrDefaultAsync(x => x.CreatedByUserId == user.Id);
-            string locale = preference == null ? "en-US" : preference.Language;
+            string locale = preference == null ? "en-US" : preference.Locale;
 
             principal.AddClaims(new[] {
                 new Claim(ClaimTypes.Name, user.UserName),
