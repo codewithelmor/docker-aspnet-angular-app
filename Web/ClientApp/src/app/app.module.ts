@@ -15,10 +15,14 @@ import { ApiAuthorizationModule } from 'src/api-authorization/api-authorization.
 import { AuthorizeGuard } from 'src/api-authorization/authorize.guard';
 import { AuthorizeInterceptor } from 'src/api-authorization/authorize.interceptor';
 
-import { TranslationService } from '../app/shared/services/translation-service';
+import { TranslationService } from '../app/shared/services/translation.service';
 import { JwtModule } from '@auth0/angular-jwt';
 import { environment } from '../environments/environment';
-import { AccountService } from './shared/services/account-service';
+import { AccountService } from './shared/services/account.service';
+import { ApplicationComponent } from './application/application.component';
+import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
+import { ApplicantGuard } from './shared/auth-guards/applicant-guard';
+import { NotfoundComponent } from './notfound/notfound.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/');
@@ -34,7 +38,10 @@ export function tokenGetter() {
     NavMenuComponent,
     HomeComponent,
     CounterComponent,
-    FetchDataComponent
+    FetchDataComponent,
+    ApplicationComponent,
+    NotfoundComponent,
+    UnauthorizedComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -45,6 +52,9 @@ export function tokenGetter() {
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthorizeGuard] },
+      { path: 'application', component: ApplicationComponent, canActivate: [AuthorizeGuard, ApplicantGuard] },
+      { path: 'unauthorized', component: UnauthorizedComponent },
+      { path: '**', component: NotfoundComponent },
     ]),
     TranslateModule.forRoot({
       loader: {
@@ -66,7 +76,10 @@ export function tokenGetter() {
     }),    
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },    
+    { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },
+    // Auth Guards
+    ApplicantGuard,
+    // Services
     TranslationService,
     AccountService,
   ],

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AccountService } from '../shared/services/account.service';
 
 @Component({
   selector: 'app-nav-menu',
@@ -8,6 +9,11 @@ import { Component } from '@angular/core';
 export class NavMenuComponent {
   isExpanded = false;
 
+  constructor(
+    private accountService: AccountService
+  ) {
+  }
+
   collapse() {
     this.isExpanded = false;
   }
@@ -15,4 +21,9 @@ export class NavMenuComponent {
   toggle() {
     this.isExpanded = !this.isExpanded;
   }
+
+  isApplicant() {
+    return this.accountService.isApplicant();
+  }
+
 }
