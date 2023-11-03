@@ -22,6 +22,7 @@ namespace Domain
             #region Entity Configurations
 
             builder.ApplyConfiguration(new PreferenceConfiguration());
+            builder.ApplyConfiguration(new SalutationConfiguration());
 
             #endregion
 
@@ -30,6 +31,7 @@ namespace Domain
         #region Database Sets
 
         public virtual DbSet<Preference> Preferences { get; set; }
+        public virtual DbSet<Salutation> Salutations { get; set; }
 
         #endregion
 
