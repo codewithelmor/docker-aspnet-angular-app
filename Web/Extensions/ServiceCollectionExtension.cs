@@ -2,6 +2,7 @@
 using Models.Options;
 using Services;
 using Services.Contracts;
+using Web.Constants;
 
 namespace Web.Extensions
 {
@@ -21,6 +22,23 @@ namespace Web.Extensions
         {
             services.AddSingleton<IEmailSender, EmailSender>();
             services.AddScoped<ILocaleService, LocaleService>();
+
+            return services;
+        }
+
+        public static IServiceCollection AddCorsSettings(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddCors(options =>
+            {
+                string[] origins = configuration.GetSection("CorsPolicy:Origins").Get<string[]>();
+
+                options.AddPolicy(ControllerPolicy.Cors,
+                    builder => builder
+                        .WithOrigins(origins)
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials());
+            });
 
             return services;
         }

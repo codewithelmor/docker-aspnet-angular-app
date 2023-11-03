@@ -2,7 +2,6 @@ using Domain;
 using IdentityModel;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
 using Models.Entity;
 using Services;
@@ -51,6 +50,8 @@ namespace Web
 
             builder.Services.AddControllersWithViews();
             builder.Services.AddRazorPages();
+
+            builder.Services.AddCorsSettings(builder.Configuration);
 
             var app = builder.Build();
 
