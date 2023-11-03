@@ -5,8 +5,9 @@ IF NOT EXISTS (SELECT 1 FROM [dbo].[__EFMigrationsHistory] WHERE [MigrationId] I
         INSERT [dbo].[__EFMigrationsHistory] ([MigrationId], [ProductVersion]) VALUES (N'00000000000000_CreateIdentitySchema', N'6.0.23')
         INSERT [dbo].[__EFMigrationsHistory] ([MigrationId], [ProductVersion]) VALUES (N'20231102073435_CreatePreferenceTable', N'6.0.23')
     END
-IF NOT EXISTS (SELECT 1 FROM [dbo].[AspNetRoles] WHERE [Name] IN ('Admin', 'Approver', 'Applicant'))
+IF NOT EXISTS (SELECT 1 FROM [dbo].[AspNetRoles] WHERE [Name] IN ('Admin', 'Approver', 'Applicant', 'User'))
     BEGIN
+        INSERT [dbo].[AspNetRoles] ([Id], [Name], [NormalizedName], [ConcurrencyStamp]) VALUES (N'0A4B3986-23EB-4B44-8265-D3F4B0DD7ECE', N'User', N'USER', NULL)
         INSERT [dbo].[AspNetRoles] ([Id], [Name], [NormalizedName], [ConcurrencyStamp]) VALUES (N'10AE9BD9-07F0-4F8A-8546-7239C7E808CB', N'Applicant', N'APPLICANT', NULL)
         INSERT [dbo].[AspNetRoles] ([Id], [Name], [NormalizedName], [ConcurrencyStamp]) VALUES (N'11CEF0C2-84B4-4B9B-A647-0D2B6615D1D5', N'Approver', N'APPROVER', NULL)
         INSERT [dbo].[AspNetRoles] ([Id], [Name], [NormalizedName], [ConcurrencyStamp]) VALUES (N'ECA6167C-F837-44D3-A672-DDF4862439F0', N'Admin', N'ADMIN', NULL)
@@ -14,11 +15,13 @@ IF NOT EXISTS (SELECT 1 FROM [dbo].[AspNetRoles] WHERE [Name] IN ('Admin', 'Appr
 IF NOT EXISTS (SELECT 1 FROM [dbo].[AspNetUsers] WHERE [Email] = 'admin@email.com')
     BEGIN
         INSERT [dbo].[AspNetUsers] ([Id], [UserName], [NormalizedUserName], [Email], [NormalizedEmail], [EmailConfirmed], [PasswordHash], [SecurityStamp], [ConcurrencyStamp], [PhoneNumber], [PhoneNumberConfirmed], [TwoFactorEnabled], [LockoutEnd], [LockoutEnabled], [AccessFailedCount]) VALUES (N'9dc02186-3c26-43d7-a37c-36d4f3f0d3d7', N'admin@email.com', N'ADMIN@EMAIL.COM', N'admin@email.com', N'ADMIN@EMAIL.COM', 1, N'AQAAAAEAACcQAAAAEG4DBnHEsViDETgFeC6J0TEf8Ihk1wKqPf5zsISF8gunSw3+uRe/7Z2hdENlLiXSTQ==', N'CZZGTWJ7IVAAAGWGQ6GVHMCQJ3EBT3FA', N'c7d8208e-dd21-4222-87d3-4eb0f5d1a08b', NULL, 0, 0, NULL, 1, 0)
+        INSERT [dbo].[AspNetUserRoles] ([UserId], [RoleId]) VALUES (N'9dc02186-3c26-43d7-a37c-36d4f3f0d3d7', N'0A4B3986-23EB-4B44-8265-D3F4B0DD7ECE')
         INSERT [dbo].[AspNetUserRoles] ([UserId], [RoleId]) VALUES (N'9dc02186-3c26-43d7-a37c-36d4f3f0d3d7', N'ECA6167C-F837-44D3-A672-DDF4862439F0')
     END
 IF NOT EXISTS (SELECT 1 FROM [dbo].[AspNetUsers] WHERE [Email] = 'approver@email.com')
     BEGIN
         INSERT [dbo].[AspNetUsers] ([Id], [UserName], [NormalizedUserName], [Email], [NormalizedEmail], [EmailConfirmed], [PasswordHash], [SecurityStamp], [ConcurrencyStamp], [PhoneNumber], [PhoneNumberConfirmed], [TwoFactorEnabled], [LockoutEnd], [LockoutEnabled], [AccessFailedCount]) VALUES (N'114b59d3-4f58-46a3-9db0-fa7c2dbaeebe', N'approver@email.com', N'APPROVER@EMAIL.COM', N'approver@email.com', N'APPROVER@EMAIL.COM', 1, N'AQAAAAEAACcQAAAAEOPq51GvszSbH7MwioBK2vSrOTDRITXDXZSxZD09eqNGOc/7k4sAU4rxowLM8Xz0Yg==', N'HDQ6WCBN3GZVGG6G2FUV4Z74G7UYSDZT', N'37ca8a65-901e-4ff9-b9b4-0ca7f4049f33', NULL, 0, 0, NULL, 1, 0)
+        INSERT [dbo].[AspNetUserRoles] ([UserId], [RoleId]) VALUES (N'114b59d3-4f58-46a3-9db0-fa7c2dbaeebe', N'0A4B3986-23EB-4B44-8265-D3F4B0DD7ECE')
         INSERT [dbo].[AspNetUserRoles] ([UserId], [RoleId]) VALUES (N'114b59d3-4f58-46a3-9db0-fa7c2dbaeebe', N'11CEF0C2-84B4-4B9B-A647-0D2B6615D1D5')
     END
 IF NOT EXISTS (SELECT 1 FROM [dbo].[Keys] WHERE [Id] = '32C4570A793E77FE16B58F6B5059089C')
