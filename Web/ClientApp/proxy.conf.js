@@ -8,6 +8,7 @@ const PROXY_CONFIG = [
     context: [
       "/weatherforecast",
       "/api/salutation",
+      "/api/relationship",
       "/_configuration",
       "/.well-known",
       "/Identity",

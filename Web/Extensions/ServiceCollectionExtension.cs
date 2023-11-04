@@ -57,6 +57,7 @@ namespace Web.Extensions
         public static IServiceCollection AddCoreSettings(this IServiceCollection services)
         {
             services.AddScoped<ISalutationRepository, SalutationRepository>();
+            services.AddScoped<IRelationshipRepository, RelationshipRepository>();
 
             services.AddScoped<IApplicationUnitOfWork, ApplicationUnitOfWork>();
 
