@@ -26,7 +26,7 @@ namespace Services
         {
             var principal = await base.CreateAsync(user);
 
-            ((ClaimsIdentity)principal.Identity).AddClaims(await GetClaims(user));
+            (principal.Identity as ClaimsIdentity)?.AddClaims(await GetClaims(user));
 
             return principal;
         }

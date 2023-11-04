@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Models.Entity;
 using Services;
 using Web.Extensions;
+using Web.Middlewares;
 
 namespace Web
 {
@@ -52,6 +53,8 @@ namespace Web
             builder.Services.AddRazorPages();
 
             builder.Services.AddCorsSettings(builder.Configuration);
+            builder.Services.AddCoreSettings();
+            builder.Services.AddRoleSettings();
 
             var app = builder.Build();
 
@@ -66,10 +69,13 @@ namespace Web
                 app.UseHsts();
             }
 
+            app.UseMiddleware<ExceptionHandlingMiddleware>();
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
 
+            app.UseCors();
             app.UseAuthentication();
             app.UseIdentityServer();
             app.UseAuthorization();
