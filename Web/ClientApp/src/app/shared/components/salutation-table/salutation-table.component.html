@@ -1,0 +1,91 @@
+<div class="container p-2">
+    <button class="btn btn-outline-primary btn-sm m-2" data-bs-toggle="modal" data-bs-target="#salutationCreateForm">Create</button>
+    <table class="table table-bordered table-hover table-sm">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Is Active</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <ng-container *ngIf="salutations.length !== 0">
+                <tr *ngFor="let salutation of salutations">
+                    <td class="col-9">{{salutation.title}}</td>
+                    <td class="col-1">{{salutation.isActive}}</td>
+                    <td class="col-2">
+                        <button class="btn btn-outline-warning btn-sm m-2" data-bs-toggle="modal" data-bs-target="#salutationUpdateForm" (click)="onOpenUpdateForm(salutation)">Update</button>
+                        |
+                        <button class="btn btn-outline-danger btn-sm m-2" (click)="onDelete(salutation)">Delete</button>
+                    </td>
+                </tr>
+            </ng-container>
+            <tr *ngIf="salutations.length === 0">
+                <td colspan="3" class="text-center">No records found</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+  
+<!-- Modal -->
+<div class="modal fade" id="salutationCreateForm" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="salutationCreateFormLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form class="row g-3 needs-validation" [formGroup]="createFormGroup" novalidate>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="salutationCreateFormLabel">Create Salutation</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="closeSalutationCreateForm" (click)="onCloseCreateForm()"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="col-md-6">
+                        <label for="createFormGroupTitle" class="form-label">Title</label>
+                        <input type="text" id="createFormGroupTitle" formControlName="title" class="form-control" [ngClass]="{'is-invalid': createFormGroup.get('title')?.invalid && (createFormGroup.get('title')?.dirty || createFormGroup.get('title')?.touched), 'is-valid': createFormGroup.get('title')?.valid && (createFormGroup.get('title')?.dirty || createFormGroup.get('title')?.touched)}">
+                        <div class="valid-feedback" *ngIf="createFormGroup.get('title')?.valid && (createFormGroup.get('title')?.dirty || createFormGroup.get('title')?.touched)">Input valid</div>
+                        <div class="invalid-feedback" *ngIf="createFormGroup.get('title')?.getError('maxlength')">The field 'first name' has length of {{createFormGroup.get('title')?.getError('maxlength')['actualLength']}} which exceeds the maximum length of {{createFormGroup.get('title')?.getError('maxlength')['requiredLength']}}.</div>
+                        <div class="invalid-feedback" *ngIf="createFormGroup.get('title')?.getError('required') && (createFormGroup.get('title')?.dirty || createFormGroup.get('title')?.touched)">The field 'title' is required.</div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="onCloseCreateForm()">Cancel</button>
+                    <button type="button" class="btn btn-primary" (click)="onCreateFormSaveChanges()">Save Changes</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="salutationUpdateForm" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="salutationUpdateFormLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form class="row g-3 needs-validation" [formGroup]="updateFormGroup" novalidate>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="salutationUpdateFormLabel">Update Salutation</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="closeSalutationUpdateForm" (click)="onCloseUpdateForm()"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" formControlName="id" required />                    
+                    <div class="col-md-6">
+                        <label for="updateFormGroupTitle" class="form-label">Title</label>
+                        <input type="text" id="updateFormGroupTitle" formControlName="title" class="form-control" [ngClass]="{'is-invalid': updateFormGroup.get('title')?.invalid && (updateFormGroup.get('title')?.dirty || updateFormGroup.get('title')?.touched), 'is-valid': updateFormGroup.get('title')?.valid && (updateFormGroup.get('title')?.dirty || updateFormGroup.get('title')?.touched)}">
+                        <div class="valid-feedback" *ngIf="updateFormGroup.get('title')?.valid && (updateFormGroup.get('title')?.dirty || updateFormGroup.get('title')?.touched)">Input valid</div>
+                        <div class="invalid-feedback" *ngIf="updateFormGroup.get('title')?.getError('maxlength')">The field 'first name' has length of {{updateFormGroup.get('title')?.getError('maxlength')['actualLength']}} which exceeds the maximum length of {{updateFormGroup.get('title')?.getError('maxlength')['requiredLength']}}.</div>
+                        <div class="invalid-feedback" *ngIf="updateFormGroup.get('title')?.getError('required') && (updateFormGroup.get('title')?.dirty || updateFormGroup.get('title')?.touched)">The field 'title' is required.</div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" value="" id="updateFormGroupIsActive" formControlName="isActive" required>
+                          <label class="form-check-label" for="updateFormGroupIsActive">
+                            Set to Active
+                          </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="onCloseUpdateForm()">Cancel</button>
+                    <button type="button" class="btn btn-primary" (click)="onUpdateFormSaveChanges()">Save Changes</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

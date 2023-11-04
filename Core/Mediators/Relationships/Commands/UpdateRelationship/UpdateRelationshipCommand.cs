@@ -7,7 +7,7 @@ namespace Core.Mediators.Relationships.Commands.UpdateRelationship
     {
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
-        public bool IsActive { get; set; } = true;
+        public bool IsActive { get; set; }
         public string? UpdatedByUserId { get; set; }
         public DateTimeOffset? UpdatedDate { get; set; }
     }

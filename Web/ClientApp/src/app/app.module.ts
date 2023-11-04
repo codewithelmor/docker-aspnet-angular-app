@@ -1,6 +1,6 @@
 import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
@@ -22,10 +22,14 @@ import { AdminComponent } from './admin/admin.component';
 import { ApplicationComponent } from './application/application.component';
 import { NotfoundComponent } from './notfound/notfound.component';
 import { FooterComponent } from './shared/components/footer/footer.component';
+import { RelationshipTableComponent } from './shared/components/relationship-table/relationship-table.component';
+import { SalutationTableComponent } from './shared/components/salutation-table/salutation-table.component';
 import { AdminGuard } from './shared/guards/admin.guard';
 import { ApplicantGuard } from './shared/guards/applicant.guard';
 import { AccountService } from './shared/services/account.service';
 import { PageTitleService } from './shared/services/page-title.service';
+import { RelationshipService } from './shared/services/relationship.service';
+import { SalutationService } from './shared/services/salutation.service';
 import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -41,6 +45,8 @@ export function tokenGetter() {
     AppComponent,
     NavMenuComponent,
     FooterComponent,
+    SalutationTableComponent,
+    RelationshipTableComponent,
     HomeComponent,
     CounterComponent,
     FetchDataComponent,
@@ -53,6 +59,7 @@ export function tokenGetter() {
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
+    ReactiveFormsModule,
     ApiAuthorizationModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
@@ -80,7 +87,7 @@ export function tokenGetter() {
         // whitelistedDomains: ['example.com'],
         // blacklistedRoutes: ['example.com/examplebadroute/']
       }
-    }),    
+    })
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },
@@ -91,6 +98,8 @@ export function tokenGetter() {
     PageTitleService,
     AccountService,
     TranslationService,
+    SalutationService,
+    RelationshipService,
   ],
   bootstrap: [AppComponent]
 })
