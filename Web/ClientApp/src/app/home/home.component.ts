@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AccountService } from '../shared/services/account.service';
+import { PageTitleService } from '../shared/services/page-title.service';
 
 @Component({
   selector: 'app-home',
@@ -7,11 +8,13 @@ import { AccountService } from '../shared/services/account.service';
 })
 export default class HomeComponent implements OnInit {
 
-  constructor(private accountService: AccountService) {
-
+  constructor(
+    private pageTitleService: PageTitleService,
+    private accountService: AccountService) {
   }
 
   ngOnInit(): void {
+    this.pageTitleService.setTitle('Home');
     this.accountService.setLocale();
   }
 

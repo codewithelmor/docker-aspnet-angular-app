@@ -21,10 +21,11 @@ import { environment } from '../environments/environment';
 import { AdminComponent } from './admin/admin.component';
 import { ApplicationComponent } from './application/application.component';
 import { NotfoundComponent } from './notfound/notfound.component';
-import { AdminGuard } from './shared/auth-guards/admin.guard';
-import { ApplicantGuard } from './shared/auth-guards/applicant.guard';
 import { FooterComponent } from './shared/components/footer/footer.component';
+import { AdminGuard } from './shared/guards/admin.guard';
+import { ApplicantGuard } from './shared/guards/applicant.guard';
 import { AccountService } from './shared/services/account.service';
+import { PageTitleService } from './shared/services/page-title.service';
 import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -87,8 +88,9 @@ export function tokenGetter() {
     AdminGuard,
     ApplicantGuard,
     // Services
-    TranslationService,
+    PageTitleService,
     AccountService,
+    TranslationService,
   ],
   bootstrap: [AppComponent]
 })
