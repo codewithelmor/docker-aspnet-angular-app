@@ -13,7 +13,7 @@ import { AppComponent } from './app.component';
 import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import HomeComponent from './home/home.component';
-import { NavMenuComponent } from './nav-menu/nav-menu.component';
+import { NavMenuComponent } from './shared/components/nav-menu/nav-menu.component';
 
 import { JwtModule } from '@auth0/angular-jwt';
 import { TranslationService } from '../app/shared/services/translation.service';
@@ -21,8 +21,9 @@ import { environment } from '../environments/environment';
 import { AdminComponent } from './admin/admin.component';
 import { ApplicationComponent } from './application/application.component';
 import { NotfoundComponent } from './notfound/notfound.component';
-import { AdminGuard } from './shared/auth-guards/admin-guard';
-import { ApplicantGuard } from './shared/auth-guards/applicant-guard';
+import { AdminGuard } from './shared/auth-guards/admin.guard';
+import { ApplicantGuard } from './shared/auth-guards/applicant.guard';
+import { FooterComponent } from './shared/components/footer/footer.component';
 import { AccountService } from './shared/services/account.service';
 import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
 
@@ -38,6 +39,7 @@ export function tokenGetter() {
   declarations: [
     AppComponent,
     NavMenuComponent,
+    FooterComponent,
     HomeComponent,
     CounterComponent,
     FetchDataComponent,
