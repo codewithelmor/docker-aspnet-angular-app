@@ -66,3 +66,66 @@ openssl pkcs12 -export -out certificate.pfx -inkey private-key.pem -in certifica
 At this point, you'll have a **`certificate.pfx`** file that you can use in your C# application.
 
 Please note that using a self-signed certificate is suitable for development and testing, but for production, you should obtain a certificate from a trusted Certificate Authority (CA). The process for obtaining a certificate from a CA typically involves creating a CSR, submitting it to the CA, and then installing the CA-issued certificate on your server.
+
+## Docker Actual Commands
+```bash
+
+docker-compose build
+docker network create app_network
+docker images -a
+docker ps -a
+docker create --network=app_network --name db --hostname db -p 1433:1433 [image_id]
+docker start db
+docker logs db
+docker create --network=app_network --name app --hostname app -p 44449:80 [image_id]
+docker start app
+docker logs app
+
+```
+
+## Docker Test Commands
+```bash
+
+sudo -s
+
+sudo docker build -t doctor-credentialing-app .
+sudo docker create --name doctor-credentialing-app --hostname doctor-credentialing-app [image_id]
+sudo docker images
+sudo docker ps -a
+sudo docker create --name doctor-credentialing-app --hostname doctor-credentialing-app -p 8001:80 [image_id]
+sudo docker run -p 8001:80 -it --rm doctor-credentialing-app --name doctor-credentialing-app --hostname doctor-credentialing-app
+
+sudo docker container stop $(sudo docker ps -aq)
+sudo docker rm -vf $(sudo docker ps -aq)
+sudo docker rm -f $(sudo docker ps -aq)
+sudo docker rmi -f $(sudo docker images -aq)
+docker system prune
+
+# https://medium.com/bright-days/basic-docker-image-dockerfile-sql-server-with-custom-prefill-db-script-8f12f197867a
+# https://augustl.com/blog/2019/sql_server_docker_image_recipe/
+
+docker build -t doctor-credentialing-db .
+docker create --name doctor-credentialing-db --hostname doctor-credentialing-db -p 1433:1433 [image_id]
+docker start doctor-credentialing-db
+docker exec -it doctor-credentialing-db "bash"
+
+/opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P "Password123"
+
+```
+
+```sql
+--https://discourse.ubuntu.com/t/microsoft-sql-server-2019-on-ubuntu-20-04/21943
+SELECT Name from sys.Databases;
+GO
+USE DoctorCredentialingApp;
+GO
+
+--https://chartio.com/resources/tutorials/sql-server-list-tables-how-to-show-all-tables/
+SELECT * FROM INFORMATION_SCHEMA.TABLES;
+GO
+
+--https://learn.microsoft.com/en-us/sql/t-sql/functions/serverproperty-transact-sql?view=sql-server-ver16
+SELECT SERVERPROPERTY('ServerName') AS ComputerName
+GO
+```
+
