@@ -1,0 +1,9 @@
+services:
+  app:
+    build: ./app
+    ports:
+      - 4449:80
+  db:
+    build: ./db
+    ports:
+      - 1433:1433
